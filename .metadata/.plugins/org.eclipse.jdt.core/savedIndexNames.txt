@@ -3,6 +3,5 @@ INDEX VERSION 1.131+C:\Users\fabie\Documents\ASIProject\.metadata\.plugins\org.e
 851037280.index
 1262974899.index
 427811170.index
-3902860051.index
 952753846.index
 2088131183.index
