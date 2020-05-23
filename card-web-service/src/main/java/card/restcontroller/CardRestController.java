@@ -137,6 +137,16 @@ public class CardRestController {
 		return Tools.toJsonString(card);
 	}
 	
+	/**
+	 * Pick 5 random cards to the player id specified
+	 * @param String id
+	 */
+	@GetMapping("CardWebService/pickCards/{id}")
+	public String pick(@PathVariable String id) {
+		List<CardEntity> cardList = cardService.pickCards(id);
+		return Tools.toJsonString(cardList);
+	}
+	
 	
 	
 	/**

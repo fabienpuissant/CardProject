@@ -1,6 +1,8 @@
 package card.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,20 @@ public class CardService {
 		}
 		
 		return idList.substring(0, idList.length() - 1 );
+	}
+
+	public List<CardEntity> pickCards(String id) {
+		List<CardEntity> cardList =  cardRepository.findByUserId(id);
+		List<CardEntity> pickedList = new ArrayList<CardEntity>();
+		Random rand = new Random();
+		for (int i = 0; i < 5; i++) {
+	        int randomIndex = rand.nextInt(cardList.size());
+	        CardEntity randomCard = cardList.get(randomIndex);
+	        pickedList.add(randomCard);
+	        cardList.remove(randomIndex);
+	    }
+		return pickedList;
+		
 	}
 }
 	

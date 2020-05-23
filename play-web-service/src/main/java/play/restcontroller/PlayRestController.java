@@ -41,11 +41,13 @@ public class PlayRestController {
 		listPvP.add(pvpGame);
 	}
 	
+	//Same comment, cards are chosen when Player is created, and stored in the cardList variable
+	/*
 	@GetMapping("PlayService/chooseCard/{roomId}/{userId}")
 	public List<String> chooseCard(@PathVariable String roomId, @PathVariable String userId) throws IOException {
 		List<String> userCards = playService.getUserCards(this.listPvP, roomId, userId);
 		return userCards;
-	}
+	}*/
 	
 	@GetMapping("PlayService/playCard/{roomId}/{userId}/{cardId}")
 	public String playCard(@PathVariable String roomId, @PathVariable String userId, @PathVariable String cardId) {
