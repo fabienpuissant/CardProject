@@ -1,0 +1,67 @@
+package play.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import play.model.Room;
+import play.service.RoomService;
+import play.utils.Tools;
+
+public class RoomController {
+
+	private RoomService service;
+	
+	public RoomController(RoomService roomService) {
+		this.service = roomService;
+	}
+	
+	/**
+	 * Get all the rooms
+	 */
+	@GetMapping("RoomService/rooms") 
+	public List<Room> getrooms() throws IOException{
+		return this.service.getAll();
+	}
+	
+	@GetMapping("RoomService/rooms/number")
+	public long getNumberOfRooms() {
+		return service.getNumber();
+	}
+	
+	/**
+	 * Get the room corresponding with the id
+	 * @param id
+	 */
+	@GetMapping("RoomService/{id}")
+	public String getRoomFeatures(@PathVariable String id) {
+		Room room = service.getRoomById(id);
+		return Tools.toJsonString(room);
+	}
+	
+	@GetMapping("RoomService/joueurs/{idroom}")
+	public String getPlayersByRoom(@PathVariable String idroom) {
+		Room room = service.getRoomById(idroom);
+		return room.getId_joueur1() + " " + room.getId_joueur2();
+	}
+	
+	/**
+	 * Add a room
+	 * @param room
+	 */
+	@PostMapping(value="RoomService/addRoom", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void addRoom(@RequestBody Room room) {
+		service.addRoom(room);
+	}
+	
+	@DeleteMapping(value="RoomService/deleteRoom/{id}")
+	public void deleteRoom(@PathVariable String id) {
+		service.deleteRoom(id);
+	}
+}

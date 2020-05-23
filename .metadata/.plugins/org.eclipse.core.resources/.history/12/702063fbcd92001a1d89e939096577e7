@@ -1,0 +1,77 @@
+package market.restcontroller;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import market.service.MarketService;
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
+public class MarketRestController {
+	
+
+	private MarketService marketService = new MarketService();
+	
+	
+
+	/**
+	 * Buy the imgId card to the user corresponding to the name given
+	 * @param name
+	 * @param imgId
+	 * @return
+	 * @throws IOException 
+	 */
+	@GetMapping("MarketService/Buy/{name}/{imgId}")
+	public boolean buyCard(@PathVariable String name, @PathVariable String imgId) throws IOException {
+		
+		int userMoney = marketService.getUserMoney(name);        
+        int cardPrice = marketService.getCardPrice(imgId);        
+                  
+		if(userMoney < cardPrice) {
+			return false;
+		}
+		
+		marketService.buyCard(name, imgId);
+		
+		return true;
+		
+		
+	}
+
+	
+	/**
+	 * Sell the imgId card to the user corresponding to the name given
+	 * @param name
+	 * @param imgId
+	 * @throws IOException 
+	 */
+	@GetMapping("MarketService/Sell/{imgId}")
+	public void sellCard(@PathVariable String imgId) throws IOException {
+
+		marketService.sellCard(imgId);                        
+		
+	}
+	
+	/**
+	 * Erase the last character of the string
+	 * @param String
+	 * @return String
+	 */
+	private String CardStringConversion(String str) {
+	        return str = str.substring(0, str.length() - 1);
+	}
+}

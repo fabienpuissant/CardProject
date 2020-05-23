@@ -1,0 +1,99 @@
+package market.service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class MarketService {
+
+	public int getUserMoney(String name) throws IOException {
+		URL obj = new URL("http://localhost:8081/UserService/money/" + name);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine = "";
+                StringBuffer money = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   money.append(inputLine);
+                 } in .close();
+        return Integer.parseInt(money.toString());
+	}
+	
+	public void updateUserMoney(String type, String money, String user) throws IOException {
+		URL obj = new URL("http://localhost:8081/UserService/" + type + "/" + user + "/" + money);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("POST"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        httpURLConnection.setDoOutput(true);
+        OutputStream os = httpURLConnection.getOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+        osw.write(money);
+        osw.flush();
+        osw.close();
+        
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine;
+                StringBuffer response1 = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   response1.append(inputLine);
+                 } in .close();
+                 
+	}
+
+	public int getCardPrice(String imgId) throws IOException {
+		URL obj = new URL("http://localhost:8082/CardService/money/" + imgId);
+		HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine = "";
+                StringBuffer cardPrice = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                	 cardPrice.append(inputLine);
+                 } in .close();
+                 
+        return Integer.parseInt(cardPrice.toString());
+	}
+
+	public void buyCard(String name, String imgId) throws IOException {
+		URL obj = new URL("http://localhost:8082/CardService/buy/" + name + "/" + imgId);
+		HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine = "";
+                StringBuffer response = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   response.append(inputLine);
+                 } in .close();
+		
+	}
+
+	public void sellCard(String imgId) throws IOException {
+		URL obj = new URL("http://localhost:8082/CardService/sell/" + imgId);
+		HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine = "";
+                StringBuffer response1 = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   response1.append(inputLine);
+                 } in .close();
+
+		
+	}
+
+
+}

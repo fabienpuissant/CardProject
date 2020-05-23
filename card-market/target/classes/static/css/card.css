@@ -1,0 +1,7 @@
+#sell{
+	display: none;
+}
+
+#sellIcon, #buyIcon, #homeIcon, #craftIcon{
+	 cursor: pointer;
+}

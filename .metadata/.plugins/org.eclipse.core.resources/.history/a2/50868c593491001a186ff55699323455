@@ -1,0 +1,117 @@
+package user.restcontroller;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import user.model.UserEntity;
+import user.service.UserService;
+import user.util.Tools;
+
+@RestController
+public class UserRestController {
+	
+	
+	@Autowired
+	private UserService userService;
+	
+	/**
+	 * Get user information from name
+	 * @param name
+	 * @return UserEntity
+	 */
+	@GetMapping("UserService/user/{name}")
+	public UserEntity getUser(@PathVariable String name) {
+		return userService.getUserByName(name);
+	}
+	
+	/**
+	 * Get the money of the user
+	 * @param name
+	 * @return String the money of the user
+	 */
+	@GetMapping("UserService/user/money/{name}")
+	public String getMoney(@PathVariable String name) {
+		return userService.getUserByName(name).getMoney().toString();
+	}
+	
+	/**
+	 * Return information of user if name and password match, otherwise return void string
+	 * @param name
+	 * @param pswd
+	 * @return String 
+	 */
+	@GetMapping("UserService/user/{name}/{pswd}")
+	public String checkUser(@PathVariable String name, @PathVariable String pswd){
+		UserEntity user = userService.getUserByName(name);
+		if(user == null) {
+			return "";
+		}
+		else if(!user.getPassword().contentEquals(pswd)) {
+			return "";
+		}
+		return Tools.toJsonString(user);
+	}
+	
+	/**
+	 * Get all cards that user owns
+	 * @param id of the user
+	 * @return String the cards of the user 
+	 * @throws IOException 
+	 */
+	@GetMapping("UserService/user/cards/{id}")
+	public String getCards(@PathVariable String id) throws IOException {
+
+		URL obj = new URL("http://localhost:8082/CardService/card/" + id);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        
+        BufferedReader in = new BufferedReader(
+        new InputStreamReader(httpURLConnection.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+           response.append(inputLine);
+         } in .close();
+		
+        return response.toString();	
+	}
+	
+	
+	/**
+	 * Add user in the database
+	 * @param user
+	 * @return boolean true if no errors
+	 * @throws IOException
+	 */
+	@PostMapping(value="UserService/addUser", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public boolean addUser(@RequestBody UserEntity user) throws IOException {
+		//Add 5 new cards to the user 
+		//Call to CardWebService
+		boolean bool = userService.addUser(user);
+		if(!bool) {
+			return false;
+		}/*
+		URL obj = new URL("http://localhost:8082/CardService/initUser/" + user.getId());
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		userService.updateUser(user);*/
+		return true;
+	}
+	
+
+}

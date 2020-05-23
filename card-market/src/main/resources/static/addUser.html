@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Register</title>
+
+<link rel="stylesheet" type="text/css" href="Semantic-UI/semantic.css">
+</head>
+<body>
+
+<div class="ui positive message" id = "successbanner">
+		<div class="header" id = "success" style = "text-align:center;">
+			Profile Created
+		</div>
+</div>
+
+<div class="ui negative message" id = "errorbanner">
+		<div class="header" id = "error" style = "text-align:center;">
+			
+		</div>
+</div>
+
+ <div class="ui five column grid">
+     <div class="row"></div>
+     <div class="column"></div>
+     <div class="column"></div>
+     <div class="column">
+         <form class="ui form" action="" method="POST" id = "form">
+             <h3 class="ui dividing header">Add User Information</h3>
+             <div class="field">
+                 <label>Name</label>
+                 <input type="text" name="Name" placeholder="Name" id = "Name" required>
+             </div>
+             <div class="field">
+                 <label>Surname</label>
+                 <input type="text" name="Surname" placeholder="Surname" id = "Surname" required>
+             </div>
+             <div class="field">
+                 <label>Password</label>
+                 <input type="password" name="Password" placeholder="Password" id = "Password" required>
+             </div>
+             <div class="field">
+                 <label>Repeat Password</label>
+                 <input type="password" name="RepeatPassword" placeholder="Password" id = RepeatPassword required>
+             </div>
+             <button class="ui button" >Submit</button>
+         </form>
+     </div>
+ </div>
+ 
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="Semantic-UI/semantic.js"></script>
+  <script src="js/addUser.js"></script>
+</body>
+</html>

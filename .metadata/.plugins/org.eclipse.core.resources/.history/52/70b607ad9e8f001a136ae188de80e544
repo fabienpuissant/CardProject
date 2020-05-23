@@ -1,0 +1,5 @@
+package restcontroller;
+
+public class UserRestController {
+
+}

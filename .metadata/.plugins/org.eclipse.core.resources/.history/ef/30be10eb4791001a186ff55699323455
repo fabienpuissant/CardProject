@@ -1,0 +1,110 @@
+package market.restcontroller;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import market.service.MarketService;
+
+
+@RestController
+public class MarketRestController {
+	
+	
+	@Autowired
+	private MarketService marketService;
+	
+	
+	/**
+	 * Sell the card of the user
+	 * @param name
+	 * @param imgId
+	 * @return boolean
+	 */
+	@GetMapping("MarketService/Sell/{name}/{imgId}")
+	public boolean sellCard(@PathVariable String name, @PathVariable String imgId) {
+		UserEntity user = userService.getUserByName(name);
+		CardEntity card = cardService.getCardById(imgId);
+		boolean bool = user.removeCard(card);
+		user.setMoney(user.getMoney() + card.getPrice());
+		userService.updateUser(user);
+		return bool;
+	}
+	
+	
+	/**
+	 * Buy the imgId card to the user corresponding to the name given
+	 * @param name
+	 * @param imgId
+	 * @return
+	 */
+	@GetMapping("MarketService/Buy/{name}/{imgId}")
+	public boolean buyCard(@PathVariable String name, @PathVariable String imgId) {
+		URL obj = new URL("http://localhost:8081/UserService/money/" + name);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine;
+                StringBuffer money = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   money.append(inputLine);
+                 } in .close();
+                 
+                 
+         URL obj = new URL("http://localhost:8082/CardService/money/" + imgId);
+         httpURLConnection = (HttpURLConnection) obj.openConnection();
+         httpURLConnection.setRequestMethod("GET"); 
+         httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+         in = new BufferedReader(
+                 new InputStreamReader(httpURLConnection.getInputStream()));
+                 inputLine = "";
+                 StringBuffer cardPrice = new StringBuffer();
+                  while ((inputLine = in.readLine()) != null) {
+                    money.append(inputLine);
+                  } in .close();
+                  
+		if(Integer.parseInt(money.toString()) < Integer.parseInt(cardPrice.toString()) {
+			return false;
+		}
+		
+		URL obj = new URL("http://localhost:8082/CardService/buy/" + name + "/" + imgId);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine;
+                StringBuffer response1 = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   response1.append(inputLine);
+                 } in .close();
+		
+		user.addCard(card);
+		user.setMoney(user.getMoney() - card.getPrice());
+		userService.updateUser(user);
+		return true;
+		
+		
+	}
+	
+	/**
+	 * Erase the last character of the string
+	 * @param String
+	 * @return String
+	 */
+	private String CardStringConversion(String str) {
+	        return str = str.substring(0, str.length() - 1);
+	}
+}

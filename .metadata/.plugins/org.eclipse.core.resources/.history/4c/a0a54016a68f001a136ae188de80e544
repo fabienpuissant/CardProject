@@ -1,0 +1,5 @@
+package market.restcontroller;
+
+public class MarketRestController {
+
+}

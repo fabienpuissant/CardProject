@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Profile</title>
+<link rel="stylesheet" type="text/css" href="Semantic-UI/semantic.css">
+<link rel="stylesheet" type="text/css" href="css/card.css">
+<link rel="stylesheet" type="text/css" href="toastr/toastr.min.css">
+</head>
+<body>
+
+ <div class="ui clearing segment">
+ 
+ 		<h3 class="ui left floated header">
+	
+	      <div class="content" id = "homeIcon">
+	          <i class="home icon"></i>
+	          
+	      </div>
+	  </h3>
+	  
+	  <h3 class="ui left floated header">
+	
+	      <div class="content" id = "buyIcon">
+	          <i class="shipping fast sign icon"></i>
+	          
+	      </div>
+	  </h3>
+	    <h3 class="ui left floated header">
+	
+	      <div class="content" id ="sellIcon">
+	          <i class="dollar sign sign icon"></i>
+	          
+	      </div>
+	  </h3>
+	  
+	      <h3 class="ui left floated header">
+	
+	      <div class="content" id ="craftIcon">
+	          <i class="plus icon"></i>
+	          
+	      </div>
+	  </h3>
+	  
+	  <h3 class="ui right floated header">
+	
+	      <div class="content">
+	          <i class="user circle outline icon"></i>
+	          <span id="userNameId"></span>
+	      </div>
+	  </h3>
+
+  	<h3 class="ui right floated header">
+
+         <div class="content" >
+             <i class="money icon" id =></i>
+             <span id = "money"></span>
+             <div class="sub header">Current Cash</div>
+         </div>
+     </h3>
+ </div>
+
+
+
+
+<div id = "home">
+ <div class="ui grid">
+     <div class="row"></div>
+     <div class="row"></div>
+     <div class="row">
+         <div class="two wide column"></div>
+
+
+         <div class="five wide column" id = "sellMarket">
+             <div class="ui cards">
+                 <div class="card">
+                     <div class="image imageCard">
+                         <div class="image">
+                             <img  class="ui centered tiny image" src="https://cdn2.iconfinder.com/data/icons/finance/512/Loan-256.png">
+                         </div>
+                     </div>
+                     <div class="ui bottom attached button" id="sellButtonId">
+                         <i class="money icon"></i>
+                         Sell Cards
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+
+         <div class="two wide column"></div>
+
+         <div class="five wide column" id = "buyMarket">
+             <div class="ui cards">
+                 <div class="card">
+                     <div class="image imageCard">
+                         <div class="image">
+                             <img  class="ui centered tiny image" src="https://cdn2.iconfinder.com/data/icons/finance/512/Card_Payment-256.png">
+                         </div>
+                     </div>
+                     <div class="ui bottom attached button" id="buyButtonId">
+                         <i class="shopping cart icon"></i>
+                         Buy Cards
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="row"></div>
+     <div class="row"></div>
+     <div class="row">
+         <div class="sixteen wide column">
+             <div class="ui grid">
+                 <div class="three column row">
+                     <div class="column"></div>
+                     <div class="column">
+
+
+                         <div class="ui center aligned">
+                             <div class="ui cards">
+                                 <div class="card">
+                                     <div class="image imageCard">
+                                         <div class="image">
+                                             <img  class="ui centered tiny image" src="https://cdn2.iconfinder.com/data/icons/multimedia-icons-2/512/Gamepad-256.png">
+                                         </div>
+                                     </div>
+                                     <div class="ui bottom attached button" id="CraftButtonId">
+                                         <i class="game pad icon"></i>
+                                         Craft a card
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+
+
+                     </div>
+                     <div class="column"></div>
+                 </div>
+             </div>
+         </div>
+
+
+
+
+     </div>
+
+ </div>
+ </div>
+ 
+ <div id = "market">
+        <div class="ui grid">
+            <div class="ten wide column">
+               <!--  <h3 class="ui center aligned header"> My Card List</h3> -->
+                 <h3 class="ui aligned header" id ="MarketType"> My Card List</h3>
+                <!------------------------------------------------------------------------->
+                <!--    ----------------------------- List ----------------------------- -->
+                <!------------------------------------------------------------------------->
+                <table class="ui selectable celled table" id="cardListId">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Attack</th>
+                            <th>Defence</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody  id = "imgrow">
+                        
+
+                    </tbody>
+                </table>
+            </div>
+            <div class=" five wide column">
+                <!------------------------------------------------------------------------->
+                <!--    ----------------------------- CARD ----------------------------- -->
+                <!------------------------------------------------------------------------->
+                 <h3 class="ui  aligned header">  <span>Selected Card</span>   </h3>
+                <div class="column">
+                <div id = "cardId" style = "display:none"></div>
+                    <div class="ui card">
+                     <div class="content" style="text-align:center;"'>
+                           <span id = "Name"></span>
+                       </div>
+                        <div class="image">
+							<img id="cardImgId" class="ui centered tiny image" src="" />
+						</div>
+						<!--
+                       <div class="content">
+                                <div class="ui form tiny">
+                                    <div class="field">
+                                        <label id="cardNameId"></label>
+                                        <textarea id="cardDescriptionId" class="overflowHiden" readonly="" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                     -->
+                            <div class="content">
+                                <i class="lightning outline icon"></i><span id="cardAttack"></span> 
+                                <div class="right floated ">
+                                    <i class="protect icon"></i>
+                                    <span id="cardDefence"></span> 
+                                </div>
+                            </div>
+                      		
+                      		<div  id ="OrderSelected">
+                            <div class="ui bottom attached button">
+                                <i class="money icon"></i>
+                                <span id = marketType> </span> <span>for</span> <span id="cardPriceId"> 100</span><span>$</span>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+        
+  <div id = "craft">
+  <div class=" five wide column">
+                <!------------------------------------------------------------------------->
+                <!--    ----------------------------- CARD ----------------------------- -->
+                <!------------------------------------------------------------------------->
+                 <h3 class="ui  aligned header">  </h3>
+                <div class="column" id = "craftImg">
+                <div id = "cardIdCraft" style = "display:none"></div>
+                    <div class="ui card centered">
+                     <div class="content" style="text-align:center;"'>
+                           <span id = "NameCraft"></span>
+                       </div>
+                        <div class="image">
+							<img id="cardImgIdCraft" class="ui centered tiny image" src="" />
+						</div>
+                            <div class="content">
+                                <i class="lightning outline icon"></i><span id="cardAttackCraft"></span> 
+                                <div class="right floated ">
+                                    <i class="protect icon"></i>
+                                    <span id="cardDefenceCraft"></span> 
+                                </div>
+                            </div>
+                      		
+                      		<div  id ="CraftButton">
+                            <div class="ui bottom attached button">
+                                <i class="money icon"></i>
+                                <span>Craft</span> <span>for</span> <span id="cardPriceId"> 250</span><span>$</span>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+					
+                </div>
+
+            </div>
+  
+  
+
+
+ <script src="js/jquery-3.3.1.min.js"></script>
+   <script src="toastr/toastr.min.js"></script> 
+ <script src="js/card.js"></script> 
+
+ 
+
+</body>
+</html>

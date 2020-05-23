@@ -1,0 +1,93 @@
+package market.restcontroller;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import market.service.MarketService;
+
+
+@RestController
+public class MarketRestController {
+	
+	
+	@Autowired
+	private MarketService marketService;
+	
+	
+
+	/**
+	 * Buy the imgId card to the user corresponding to the name given
+	 * @param name
+	 * @param imgId
+	 * @return
+	 * @throws IOException 
+	 */
+	@GetMapping("MarketService/Buy/{name}/{imgId}")
+	public boolean buyCard(@PathVariable String name, @PathVariable String imgId) throws IOException {
+		
+		int userMoney = marketService.getUserMoney(name);        
+        int cardPrice = marketService.getCardPrice(imgId);        
+                  
+		if(userMoney < cardPrice) {
+			return false;
+		}
+		
+		marketService.buyCard(name, imgId);
+		
+		return true;
+		
+		
+	}
+	
+	
+	
+	/**
+	 * Sell the imgId card to the user corresponding to the name given
+	 * @param name
+	 * @param imgId
+	 * @return
+	 * @throws IOException 
+	 */
+	@GetMapping("MarketService/Sell/{imgId}")
+	public boolean sellCard(@PathVariable String imgId) throws IOException {
+
+                                
+		URL obj = new URL("http://localhost:8082/CardService/buy/" + imgId);
+		HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
+        httpURLConnection.setRequestMethod("GET"); 
+        httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(httpURLConnection.getInputStream()));
+                String inputLine = "";
+                StringBuffer response1 = new StringBuffer();
+                 while ((inputLine = in.readLine()) != null) {
+                   response1.append(inputLine);
+                 } in .close();
+		
+		return true;
+		
+		
+	}
+	
+	/**
+	 * Erase the last character of the string
+	 * @param String
+	 * @return String
+	 */
+	private String CardStringConversion(String str) {
+	        return str = str.substring(0, str.length() - 1);
+	}
+}
